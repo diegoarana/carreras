@@ -38,8 +38,10 @@
 		<p>Calificación: {{ val.calificacion }}</p>
 		<p>Fecha: {{ val.fecha_valoracion }}</p>
 		{% if user.is_authenticated %}
+		{% if user.usuario.id == val.creador_id %}
 		<a href="{% url "valorar_editar" carrera.id val.id %}"><button type="button" class="btn btn-default" >
 		Editar</button></a>
+		{% endif %}
 		{% endif %}
 		</div>
 		</div>

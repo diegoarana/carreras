@@ -4,7 +4,7 @@ from appcarreras.models import Carrera, Valoracion
 class ValoraForm(forms.ModelForm):
 	class Meta:
 		model=Valoracion
-		fields=['nombre','cursando','pros','contras','recomendacion','calificacion']
+		fields=['pros','contras','cursando','recomendacion','calificacion']
 
 class CarreraForm(forms.ModelForm):
 	class Meta:

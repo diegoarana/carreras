@@ -1,16 +1,19 @@
 {% extends "base.html" %}
 {% block title %}Valorar una carrera {% endblock %}
+{% block header %}Valorar carrera: {{carrera.nombre}} - {{carrera.institucion}}{% endblock %}
 {% block content %}
-<h2>Valorar carrera: {{carrera.nombre}} - {{carrera.institucion}}</h2>
 	<form action="" method="post">{% csrf_token %}
 		{% for field in form %}
-		<div class="field_container">
+		<div class="field_container col-md-6 ">
 		{{field.errors}}
 		{{field.label_tag}} <br>
 		{{field}}
 		</div>
 		{% endfor %}
-		<input type="submit" value="Submit">
+		<br>
+		<div class="col-md-5" id="btn_valorar">
+		<input type="submit" value="Valorar" class="btn btn-primary">
+		</div>
 	</form>
 
 {% endblock %}

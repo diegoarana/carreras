@@ -1,0 +1,37 @@
+{% extends "base.html" %}
+{% block title %} Valoraciones {% endblock %}
+{% block header %}Valoraciones realizadas{% endblock %}
+{% block content %}
+
+<ul>
+{% for val in lista_val %}
+<div class="panel panel-info">
+		<div class="panel-heading">
+			<h3 class="panel-title">{{ val.carrera.nombre }}</h3>
+		</div>
+		 <div class="panel-body">
+		<p>Pros: {{ val.pros }}</p>
+		<p>Contras: {{ val.contras }}</p>
+		
+		{% if val.cursando %}
+		<p>Está cursando</p>
+		{% else %}
+		<p>No está cursando</p>
+		{% endif %}
+		
+		{% if val.recomendacion %}
+		<p>La recomendaria</p>
+		{% else %}
+		<p>No la recomendaria</p>
+		{% endif %}
+
+		<p>Calificación: {{ val.calificacion }}</p>
+		<p>Fecha: {{ val.fecha_valoracion }}</p>
+		<a href={% url "valorar_editar" val.carrera.id val.id %}><button type="button" class="btn btn-default" >
+		Editar</button></a>
+		</div>
+		</div>
+
+{% endfor %}
+<ul>
+{% endblock %}

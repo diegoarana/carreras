@@ -1,7 +1,8 @@
 from django.shortcuts import render, get_object_or_404, redirect
-from appcarreras.models import Carrera, Valoracion
+from appcarreras.models import Carrera, Valoracion, Usuario
 from appcarreras.form import ValoraForm, CarreraForm
 from django.contrib.auth.decorators import login_required
+from django.contrib.auth.models import User
 from django.core import serializers
 from django.http import HttpResponse
 
@@ -12,12 +13,7 @@ def lista_carreras (request):
 
 def detalle_carrera (request, carrera_id):
 	carrera = get_object_or_404(Carrera, pk=carrera_id)
-	lista_val = carrera.valoracion_set.all()
-	total = 0
-	for val in lista_val:
-		total += val.calificacion
-	if lista_val.count() != 0:
-		total = total / lista_val.count()
+	total = carrera.valor_total()
 	return render(request, 'appcarreras/detalle_carrera.html', {'carrera':carrera, 'total':total})
 
 @login_required
@@ -28,11 +24,19 @@ def valorar_carrera(request, carrera_id):
 		if form.is_valid():
 			valorar = form.save(commit=False)
 			valorar.carrera = carrera
+			valorar.usuario = request.user.usuario
+			valorar.nombre = request.user.username
 			valorar.save();
 			return redirect('detalle_carrera', carrera_id)
 	else:
 		form = ValoraForm()
 	return render(request, 'appcarreras/valorar_carrera.html', {'form':form, 'carrera':carrera})
+
+@login_required
+def lista_valoraciones(request):
+	lista_val = request.user.usuario.valoracion_set.all()
+	return render(request, 'appcarreras/lista_valoraciones.html', {'lista_val':lista_val} )
+
 
 @login_required
 def valorar_editar(request, carrera_id, valorar_id):
