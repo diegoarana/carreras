@@ -7,7 +7,7 @@
 		<b>{{message}}</b>
 	{% endif %}
 	<form action="" method="post">{% csrf_token %}
-		{% for field in form %}
+		{% for field in form_user %}
 			<div class="field_container">
 				{{field.error}}
 				{{field.label_tag}}<br>
