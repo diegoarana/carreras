@@ -1,0 +1,51 @@
+{% extends "base.html" %}
+{% block title %} Valoraciones {% endblock %}
+{%block header%} Valoraciones {%endblock%}
+{% block content %}
+<div class="panel panel-primary">
+		<div class="panel-heading">
+			<h3 class="panel-title">Carrera</h3>
+		</div>
+		 <div class="panel-body">
+		<h2>{{carrera.nombre}} - {{carrera.institucion}}</h2>
+		<h2>Calificacion promedio: {{total}}</h2>
+		<a href="{% url "valorar_carrera" carrera.url %}"><button type="button" class="btn btn-primary" >Valorar</button></a>
+		</div>
+</div>
+
+	<ul>
+	{% for val in carrera.valoracion_set.all %}
+		<div class="panel panel-info">
+		<div class="panel-heading">
+			<h3 class="panel-title">{{ val.usuario.user.username }}</h3>
+		</div>
+		 <div class="panel-body">
+		<p>Pros: {{ val.pros }}</p>
+		<p>Contras: {{ val.contras }}</p>
+		
+		{% if val.cursando %}
+		<p>Está cursando</p>
+		{% else %}
+		<p>No está cursando</p>
+		{% endif %}
+		
+		{% if val.recomendacion %}
+		<p>La recomendaria</p>
+		{% else %}
+		<p>No la recomendaria</p>
+		{% endif %}
+
+		<p>Calificación: {{ val.calificacion }}</p>
+		<p>Fecha: {{ val.fecha_valoracion }}</p>
+		{% if user.is_authenticated %}
+		{% if user.usuario.id == val.creador_id %}
+		<a href="{% url "valorar_editar" carrera.url val.id %}"><button type="button" class="btn btn-default" >
+		Editar</button></a>
+		{% endif %}
+		{% endif %}
+		</div>
+		</div>
+	<br>
+	{% endfor %}
+	</ul>
+{% endblock %}

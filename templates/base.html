@@ -39,8 +39,8 @@
           <ul class="nav navbar-nav">
             <li><a href="{% url "lista_carreras" %}">Listar carreras</a></li>
             {% if user.is_authenticated %}
-            <li><a href="{% url "crear_carrera" %}">Crear carrera</a></li>
             <li><a href="{% url "lista_valoraciones" %}">Valoraciones realizadas</a></li>
+            <li><a href="{% url "crear_carrera" %}">Crear carrera</a></li>
             {% endif %}
             <li><a href="#contact">Contacto</a></li>
 

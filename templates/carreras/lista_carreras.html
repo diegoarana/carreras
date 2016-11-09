@@ -1,0 +1,17 @@
+{% extends "base.html" %}
+{% block title %} Lista de carreras {% endblock %}
+{%block header%} Lista de carreras{%endblock%}
+{% block content %}
+	<div class="container">
+	<form class="navbar-form navbar-left" role="search">
+         <div class="form-group">
+              <input type="text" class="form-control" placeholder="Buscar">
+         </div>
+    </form>
+    </div>
+	<div class="list-group">
+	{% for carrera in carreras %}
+		<a href="{% url "detalle_carrera" carrera.url %}" class="list-group-item">{{carrera.nombre}} - {{carrera.institucion}}</a>
+	{% endfor %}
+	</div>	
+{% endblock %}

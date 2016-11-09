@@ -3,8 +3,8 @@
 {% block header %} Registrar {% endblock %}
 {% block content %}
 
-	{% if message %}
-		<b>{{message}}</b>
+	{% if error_messages %}
+		<b>{{error_messages}}</b>
 	{% endif %}
 	<form action="" method="post">{% csrf_token %}
 		{% for field in form_user %}

@@ -1,80 +1,79 @@
-from django.shortcuts import render, redirect
-from carreras.form import LoginForm, UserCreationForm, UserCreationForm
-from django.contrib.auth import authenticate, login, logout
+from django.shortcuts import render, get_object_or_404, redirect, get_list_or_404
+from carreras.models import Carrera, Valoracion, Usuario
+from carreras.form import ValoraForm, CarreraForm
+from django.contrib.auth.decorators import login_required
 from django.contrib.auth.models import User
-from appcarreras.models import Usuario
+from django.core import serializers
+from django.http import HttpResponse, Http404
 
-def homepage(request):
-	return render(request, 'index.html')
+# Create your views here.
+def lista_carreras (request):
+	carreras = Carrera.objects.order_by('nombre')
+	return render(request, 'carreras/lista_carreras.html', {'carreras': carreras})
 
+def detalle_carrera (request, url_carrera):
+	carrera = get_object_or_404(Carrera, url=url_carrera)
+	total = carrera.valor_total()
+	return render(request, 'carreras/detalle_carrera.html', {'carrera':carrera, 'total':total})
 
-def registrar(request):
-	message = None
+@login_required
+def valorar_carrera(request, url_carrera):
+	carrera = get_object_or_404(Carrera, url=url_carrera)
 	if request.method == 'POST':
-		form_user = UserCreationForm(request.POST or None)
-		if form_user.is_valid():
-			user = form_user.save()
-			usuario = Usuario(user=user)
-			usuario.save()
-			password = request.POST['password1']
-			user_auth = authenticate(username=user.username, password=password)
-			login(request, user_auth)
-			message = "Te has logueado correctamente"
-			return redirect('homepage')	
-	else:
-		form_user = UserCreationForm(request.POST or None)
-	return render(request, "registrar.html", {'form_user':form_user, 'message':message })
-
-def login_page(request):
-	message = None
-	if request.method == 'POST':
-		form = LoginForm(request.POST)
+		form = ValoraForm(request.POST)
 		if form.is_valid():
-			username = request.POST['username']
-			password = request.POST['password']
-			user = authenticate(username=username, password=password)
-			if user is not None:
-				if user.is_active:
-					login(request, user)
-					message = "Te has logueado correctamente"
-					return redirect('lista_carreras')
-				else:
-					message = "Tu usuario esta inactivo"
-			else:
-				message = "Nombre de usuario y/o password incorrecto"
+			valorar = form.save(commit=False)
+			valorar.carrera = carrera
+			valorar.usuario = request.user.usuario
+			valorar.nombre = request.user.username
+			valorar.save();
+			return redirect('detalle_carrera', url_carrera)
 	else:
-		form = LoginForm()
-	return render(request, 'login_page.html', {'message':message,'form':form})
+		form = ValoraForm()
+	return render(request, 'carreras/valorar_carrera.html', {'form':form, 'carrera':carrera})
 
-def logout_page(request):
-	logout(request)
-	return redirect('login_page')
+@login_required
+def lista_valoraciones(request):
+	try:
+		lista_val = request.user.usuario.valoracion_set.all()
+	except:
+		 raise Http404("No hay datos cargados")
+	return render(request, 'carreras/lista_valoraciones.html', {'lista_val':lista_val} )
 
 
-"""
-def registrar(request):
-	message = None
+@login_required
+def valorar_editar(request, url_carrera, valorar_id):
+	carrera = get_object_or_404(Carrera, url=url_carrera)
+	valorar = get_object_or_404(carrera.valoracion_set, pk=valorar_id)
 	if request.method == 'POST':
-		form = RegistrarForm(request.POST)
-		if form.is_valid():
-			username = request.POST['username']
-			password = request.POST['password']
-			email = request.POST['email']
-			user = User.objects.create_user(username, email, password)
-			if user is not None:
-				user_auth = authenticate(username=username, password=password)
-				usuario = Usuario()
-				usuario.user = user
-				usuario.save()
-				if user.is_active:
-					login(request, user_auth)
-					message = "Te has logueado correctamente"
-					return redirect('homepage')
-				else:
-					message = "Tu usuario esta inactivo"
-			else:
-				message = "Nombre de usuario y/o password incorrecto"
+		form = ValoraForm(request.POST, instance=valorar)
+		if form.is_valid:
+			form.save()
+			return redirect('detalle_carrera', url_carrera)
 	else:
-		form = RegistrarForm()
-	return render(request, 'registrar.html', {'message':message,'form':form})
-"""
+			form = ValoraForm(instance=valorar)
+	return render(request, 'carreras/valorar_editar.html', {'form':form, 'carrera':carrera, 'valorar':valorar})
+
+@login_required
+def crear_carrera(request):
+	if request.method == "POST":
+		form = CarreraForm(request.POST)
+		if form.is_valid():
+			form.save()
+			return redirect('lista_carreras')
+	else:
+		form = CarreraForm()
+	return render(request, 'carreras/crear_carrera.html', {'form':form})
+
+def carreras_json(request):
+	carreras = Carrera.objects.order_by('nombre')
+	data = []
+	for car in carreras:
+		data.append(car.to_dict())		
+	return HttpResponse(data, content_type='application/json')
+
+"""def carreras_json(request):
+    carreras = Carrera.objects.all()
+    data = serializers.serialize("json", carreras)
+    return HttpResponse(data, content_type='application/json')"""
+
