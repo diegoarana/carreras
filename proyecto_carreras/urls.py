@@ -24,15 +24,18 @@ from django.conf.urls.static import static
 urlpatterns = [
     url(r'^admin/', admin.site.urls),
     url(r'^$', proyecto_carreras.homepage, name='homepage'),
-    url(r'^carreras/$', views.lista_carreras, name='lista_carreras'),
     url(r'^carreras/json/$', views.carreras_json, name='carreras_json'),
     url(r'^valoraciones/$', views.lista_valoraciones, name='lista_valoraciones'),
+    url(r'^valoraciones/eliminar(?P<valorar_id>[0-9]+)/$', views.eliminar_valoracion, name='eliminar_valoracion'),
     url(r'^registrar/$', proyecto_carreras.registrar, name='registrar'),
     url(r'^login/$', proyecto_carreras.login_page, name='login_page'),
     url(r'^logout/$', proyecto_carreras.logout_page, name='logout_page'),
-    url(r'^carreras/crear/$', views.crear_carrera, name='crear_carrera'),
-    url(r'^carreras/(?P<url_carrera>[\w]+)/$', views.detalle_carrera, name='detalle_carrera'),
-    url(r'^carreras/(?P<url_carrera>[\w]+)/valorar/$', views.valorar_carrera, name='valorar_carrera'),
-    url(r'^carreras/(?P<url_carrera>[\w]+)/valorar/editar(?P<valorar_id>[0-9]+)/$', views.valorar_editar, name='valorar_editar'),
+    url(r'^carreras/', include([
+        url(r'^$', views.lista_carreras, name='lista_carreras'),
+        url(r'^crear/$', views.crear_carrera, name='crear_carrera'),
+        url(r'^(?P<url_carrera>[\w]+)/$', views.detalle_carrera, name='detalle_carrera'),
+        url(r'^(?P<url_carrera>[\w]+)/valorar/$', views.valorar_carrera, name='valorar_carrera'),
+        url(r'^(?P<url_carrera>[\w]+)/valorar/editar(?P<pk>[0-9]+)/$', views.valorar_editar, name='valorar_editar'),
+    ])),
 ] + static(settings.STATIC_URL, document_root=settings.STATIC_ROOT)
 

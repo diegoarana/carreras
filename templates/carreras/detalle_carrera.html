@@ -9,6 +9,7 @@
 		 <div class="panel-body">
 		<h2>{{carrera.nombre}} - {{carrera.institucion}}</h2>
 		<h2>Calificacion promedio: {{total}}</h2>
+
 		<a href="{% url "valorar_carrera" carrera.url %}"><button type="button" class="btn btn-primary" >Valorar</button></a>
 		</div>
 </div>
@@ -41,11 +42,31 @@
 		{% if user.usuario.id == val.creador_id %}
 		<a href="{% url "valorar_editar" carrera.url val.id %}"><button type="button" class="btn btn-default" >
 		Editar</button></a>
+
+		<a><button type="button" class="btn btn-warning" data-toggle="modal" data-target="#myModal">
+		Eliminar</button></a>
+
 		{% endif %}
 		{% endif %}
 		</div>
 		</div>
-	<br>
+		
+			<!-- Modal -->
+		<div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+		  <div class="modal-dialog" role="document">
+		    <div class="modal-content">
+		      <div class="modal-header">
+		        <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+		        <h4 class="modal-title" id="myModalLabel">Está seguro que desea eliminar esta valoración?</h4>
+		      </div>
+		      <div class="modal-footer">
+		        <button type="button" class="btn btn-primary" data-dismiss="modal">Cancelar</button>
+		        <a href="{% url "eliminar_valoracion" val.id %}"><button type="button" class="btn btn-warning">Eliminar</button></a>
+		      </div>
+		    </div>
+		  </div>
+		</div>	
+
 	{% endfor %}
 	</ul>
 {% endblock %}

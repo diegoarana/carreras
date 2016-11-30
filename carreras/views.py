@@ -1,6 +1,7 @@
 from django.shortcuts import render, get_object_or_404, redirect, get_list_or_404
 from carreras.models import Carrera, Valoracion, Usuario
 from carreras.form import ValoraForm, CarreraForm
+from carreras.permission import is_owner_permission_required
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth.models import User
 from django.core import serializers
@@ -40,18 +41,25 @@ def lista_valoraciones(request):
 		 raise Http404("No hay datos cargados")
 	return render(request, 'carreras/lista_valoraciones.html', {'lista_val':lista_val} )
 
+@login_required
+def eliminar_valoracion(request, valorar_id):
+	valo = get_object_or_404(Valoracion, pk=valorar_id)
+	valo.delete()
+	return redirect('homepage')
+	
 
 @login_required
-def valorar_editar(request, url_carrera, valorar_id):
+@is_owner_permission_required(Valoracion)
+def valorar_editar(request, url_carrera, pk):
 	carrera = get_object_or_404(Carrera, url=url_carrera)
-	valorar = get_object_or_404(carrera.valoracion_set, pk=valorar_id)
+	valorar = get_object_or_404(carrera.valoracion_set, pk=pk)
 	if request.method == 'POST':
 		form = ValoraForm(request.POST, instance=valorar)
 		if form.is_valid:
 			form.save()
 			return redirect('detalle_carrera', url_carrera)
 	else:
-			form = ValoraForm(instance=valorar)
+			form = ValoraForm(instance=valorar)		
 	return render(request, 'carreras/valorar_editar.html', {'form':form, 'carrera':carrera, 'valorar':valorar})
 
 @login_required

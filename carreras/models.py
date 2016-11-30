@@ -60,8 +60,8 @@ class Valoracion (models.Model):
 		return self.nombre
 
 	def creador_id(self):
-		return self.usuario.id		 
+		return self.usuario.id
 
-
-
+	def is_owner(self, user):
+		return self.usuario.user == user
 

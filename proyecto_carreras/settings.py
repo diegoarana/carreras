@@ -9,7 +9,7 @@ https://docs.djangoproject.com/en/1.10/topics/settings/
 For the full list of settings and their values, see
 https://docs.djangoproject.com/en/1.10/ref/settings/
 """
-
+from django.core.urlresolvers import reverse_lazy
 import os
 
 # Build paths inside the project like this: os.path.join(BASE_DIR, ...)
@@ -103,6 +103,8 @@ AUTH_PASSWORD_VALIDATORS = [
     },
 ]
 
+#cambia la pagina de login por defecto cuando se intenta acceder a una view con  @login_required
+LOGIN_URL = reverse_lazy('login_page')
 
 # Internationalization
 # https://docs.djangoproject.com/en/1.10/topics/i18n/
