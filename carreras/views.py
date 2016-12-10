@@ -4,8 +4,8 @@ from carreras.form import ValoraForm, CarreraForm
 from carreras.permission import is_owner_permission_required
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth.models import User
-from django.core import serializers
-from django.http import HttpResponse, Http404
+from django.http import Http404
+from django.core.paginator import Paginator, EmptyPage, PageNotAnInteger
 
 # Create your views here.
 def lista_carreras (request):
@@ -15,7 +15,21 @@ def lista_carreras (request):
 def detalle_carrera (request, url_carrera):
 	carrera = get_object_or_404(Carrera, url=url_carrera)
 	total = carrera.valor_total()
-	return render(request, 'carreras/detalle_carrera.html', {'carrera':carrera, 'total':total})
+	lista_val = carrera.valoracion_set.all()
+
+	paginator = Paginator(lista_val, 3) # Show 3 valorations per page
+	page = request.GET.get('page')
+	try:
+		lista_val = paginator.page(page)
+	except PageNotAnInteger:
+		# If page is not an integer, deliver first page.
+		lista_val = paginator.page(1)
+	except EmptyPage:
+		# If page is out of range (e.g. 9999), deliver last page of results.
+		lista_val = paginator.page(paginator.num_pages)
+	
+	return render(request, 'carreras/detalle_carrera.html', {'lista_val':lista_val, 'total':total})
+	#hace falta modificar el template ya que le estoy pasando la lista reducida de objetos y no todas las valoraciones
 
 @login_required
 def valorar_carrera(request, url_carrera):
@@ -72,16 +86,3 @@ def crear_carrera(request):
 	else:
 		form = CarreraForm()
 	return render(request, 'carreras/crear_carrera.html', {'form':form})
-
-def carreras_json(request):
-	carreras = Carrera.objects.order_by('nombre')
-	data = []
-	for car in carreras:
-		data.append(car.to_dict())		
-	return HttpResponse(data, content_type='application/json')
-
-"""def carreras_json(request):
-    carreras = Carrera.objects.all()
-    data = serializers.serialize("json", carreras)
-    return HttpResponse(data, content_type='application/json')"""
-
