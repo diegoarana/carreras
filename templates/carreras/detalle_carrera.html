@@ -15,7 +15,7 @@
 </div>
 
 	<ul>
-	{% for val in carrera.valoracion_set.all %}
+	{% for val in lista_val %}
 		<div class="panel panel-info">
 		<div class="panel-heading">
 			<h3 class="panel-title">{{ val.usuario.user.username }}</h3>
@@ -43,7 +43,7 @@
 		<a href="{% url "valorar_editar" carrera.url val.id %}"><button type="button" class="btn btn-default" >
 		Editar</button></a>
 
-		<a><button type="button" class="btn btn-warning" data-toggle="modal" data-target="#myModal">
+		<a href="{% url "eliminar_valoracion" val.id %}"><button type="button" class="btn btn-warning">
 		Eliminar</button></a>
 
 		{% endif %}
@@ -51,22 +51,24 @@
 		</div>
 		</div>
 		
-			<!-- Modal -->
-		<div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
-		  <div class="modal-dialog" role="document">
-		    <div class="modal-content">
-		      <div class="modal-header">
-		        <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
-		        <h4 class="modal-title" id="myModalLabel">Está seguro que desea eliminar esta valoración?</h4>
-		      </div>
-		      <div class="modal-footer">
-		        <button type="button" class="btn btn-primary" data-dismiss="modal">Cancelar</button>
-		        <a href="{% url "eliminar_valoracion" val.id %}"><button type="button" class="btn btn-warning">Eliminar</button></a>
-		      </div>
-		    </div>
-		  </div>
-		</div>	
 
 	{% endfor %}
 	</ul>
+
+
+	<div class="pagination">
+    <span class="step-links">
+        {% if lista_val.has_previous %}
+            <a href="?page={{ lista_val.previous_page_number }}">previous</a>
+        {% endif %}
+
+        <span class="current">
+            Página {{ lista_val.number }} de {{ lista_val.paginator.num_pages }}.
+        </span>
+
+        {% if lista_val.has_next %}
+            <a href="?page={{ lista_val.next_page_number }}">next</a>
+        {% endif %}
+    </span>
+</div>
 {% endblock %}

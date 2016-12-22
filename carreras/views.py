@@ -28,7 +28,7 @@ def detalle_carrera (request, url_carrera):
 		# If page is out of range (e.g. 9999), deliver last page of results.
 		lista_val = paginator.page(paginator.num_pages)
 	
-	return render(request, 'carreras/detalle_carrera.html', {'lista_val':lista_val, 'total':total})
+	return render(request, 'carreras/detalle_carrera.html', {'carrera':carrera, 'lista_val':lista_val, 'total':total})
 	#hace falta modificar el template ya que le estoy pasando la lista reducida de objetos y no todas las valoraciones
 
 @login_required
@@ -59,7 +59,8 @@ def lista_valoraciones(request):
 def eliminar_valoracion(request, valorar_id):
 	valo = get_object_or_404(Valoracion, pk=valorar_id)
 	valo.delete()
-	return redirect('homepage')
+	previous_page = request.META['HTTP_REFERER']
+	return redirect(previous_page)
 	
 
 @login_required
