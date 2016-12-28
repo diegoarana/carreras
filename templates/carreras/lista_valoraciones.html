@@ -3,6 +3,16 @@
 {% block header %}Valoraciones realizadas{% endblock %}
 {% block content %}
 
+<!-- Modal -->
+<div class="modal fade" id="modal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+	<div class="modal-dialog">
+		<div class="modal-content" style="background:rgba(0,0,0,0.1); border:0px" >
+
+ 		</div> 
+	</div>
+</div>
+<!-- /.modal --> 
+
 <ul>
 {% for val in lista_val %}
 <div class="panel panel-info">
@@ -16,13 +26,13 @@
 		{% if val.cursando %}
 		<p>Está cursando</p>
 		{% else %}
-		<p>No está cursando</p>
+		<p><b>No</b> está cursando</p>
 		{% endif %}
 		
 		{% if val.recomendacion %}
 		<p>La recomendaria</p>
 		{% else %}
-		<p>No la recomendaria</p>
+		<p><b>No</b> la recomendaria</p>
 		{% endif %}
 
 		<p>Calificación: {{ val.calificacion }}</p>
@@ -30,16 +40,17 @@
 		<a href={% url "valorar_editar" val.carrera.url val.id %}><button type="button" class="btn btn-default" >
 		Editar</button></a>
 
-		<a href="{% url "eliminar_valoracion" val.id %}"><button type="button" class="btn btn-warning">
-		Eliminar</button></a>
-		
-		</div>
-		</div>
 
+		<!--href="{% url "eliminar_valoracion" val.id %}"-->
+		<a data-toggle="modal" href="{% url "detalle_valoracion" val.id %}" data-target="#modal" data-tooltip><button type="button" class="btn btn-warning">
+		Eliminar</button></a>
+
+
+		</div>
+		</div>
 
 {% endfor %}
 <ul>
-
 
 
 {% endblock %}

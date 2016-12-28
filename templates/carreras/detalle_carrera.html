@@ -2,6 +2,17 @@
 {% block title %} Valoraciones {% endblock %}
 {%block header%} Valoraciones {%endblock%}
 {% block content %}
+
+<!-- Modal -->
+<div class="modal fade" id="modal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+	<div class="modal-dialog">
+		<div class="modal-content" style="background:rgba(0,0,0,0.1); border:0px" >
+
+ 		</div> 
+	</div>
+</div>
+<!-- /.modal --> 
+
 <div class="panel panel-primary">
 		<div class="panel-heading">
 			<h3 class="panel-title">Carrera</h3>
@@ -43,7 +54,7 @@
 		<a href="{% url "valorar_editar" carrera.url val.id %}"><button type="button" class="btn btn-default" >
 		Editar</button></a>
 
-		<a href="{% url "eliminar_valoracion" val.id %}"><button type="button" class="btn btn-warning">
+		<a data-toggle="modal" href="{% url "detalle_valoracion" val.id %}" data-target="#modal" data-tooltip><button type="button" class="btn btn-warning">
 		Eliminar</button></a>
 
 		{% endif %}
@@ -56,10 +67,10 @@
 	</ul>
 
 
-	<div class="pagination">
-    <span class="step-links">
+	<div class="pagination" style="padding-left:300px;" >
+    <span class="step-links"> <h4>
         {% if lista_val.has_previous %}
-            <a href="?page={{ lista_val.previous_page_number }}">previous</a>
+            <a href="?page={{ lista_val.previous_page_number }}">Anterior</a>
         {% endif %}
 
         <span class="current">
@@ -67,8 +78,10 @@
         </span>
 
         {% if lista_val.has_next %}
-            <a href="?page={{ lista_val.next_page_number }}">next</a>
+            <a href="?page={{ lista_val.next_page_number }}">Siguiente</a>
         {% endif %}
+        </h4>
     </span>
 </div>
+
 {% endblock %}

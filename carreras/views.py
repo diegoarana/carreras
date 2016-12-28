@@ -17,7 +17,7 @@ def detalle_carrera (request, url_carrera):
 	total = carrera.valor_total()
 	lista_val = carrera.valoracion_set.all()
 
-	paginator = Paginator(lista_val, 3) # Show 3 valorations per page
+	paginator = Paginator(lista_val, 4) # Show 3 valorations per page
 	page = request.GET.get('page')
 	try:
 		lista_val = paginator.page(page)
@@ -87,3 +87,7 @@ def crear_carrera(request):
 	else:
 		form = CarreraForm()
 	return render(request, 'carreras/crear_carrera.html', {'form':form})
+
+def detalle_valoracion(request, val_id):
+	val = get_object_or_404(Valoracion, id=val_id)
+	return render(request, 'carreras/detalle_valoracion.html', {'val':val})

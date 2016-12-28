@@ -20,6 +20,7 @@
 
     <link href="{% static "carreras/css/estilos.css" %}" rel="stylesheet">
 
+    {% block extra_js%}{% endblock %}
   </head>
 
   <body>
@@ -47,7 +48,7 @@
           </ul>
           <ul class="nav navbar-nav navbar-right">
            {% if user.is_authenticated %}
-               <li> <p id="texto_usuario">Bienvenido! <b>{{user.username}}</b> |  <a href="{% url "logout_page" %}">Logout</a></p></li>
+               <li> <p id="texto_usuario">Bienvenido! <b>{{user.username}}</b> |  <a href="{% url "logout_page" %}">Salir</a></p></li>
                 {% else %}
                 
                <li><a href="{% url "login_page" %}">Iniciar sesión</a></li>

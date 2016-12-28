@@ -65,3 +65,6 @@ class Valoracion (models.Model):
 	def is_owner(self, user):
 		return self.usuario.user == user
 
+	class Meta:
+		ordering = ('-fecha_valoracion',)
+

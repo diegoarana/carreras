@@ -26,6 +26,7 @@ urlpatterns = [
     url(r'^$', proyecto_carreras.homepage, name='homepage'),
     url(r'^valoraciones/$', views.lista_valoraciones, name='lista_valoraciones'),
     url(r'^valoraciones/eliminar(?P<valorar_id>[0-9]+)/$', views.eliminar_valoracion, name='eliminar_valoracion'),
+    url(r'^valoraciones/detalle/(?P<val_id>[0-9]+)/$', views.detalle_valoracion, name='detalle_valoracion'),
     url(r'^registrar/$', proyecto_carreras.registrar, name='registrar'),
     url(r'^login/$', proyecto_carreras.login_page, name='login_page'),
     url(r'^logout/$', proyecto_carreras.logout_page, name='logout_page'),
