@@ -1,0 +1,40 @@
+<div class="modal-dialog"> 
+  <div class="modal-content"> 
+    <div class="modal-header">
+      <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
+      <h4 class="modal-title" id="myModalLabel">¿Está seguro que desea eliminar la siguiente valoración 
+        <br>de la carrera <b>{{ val.carrera.nombre }}</b>?</h4>
+  </div> 
+
+  <div class="modal-body"> 
+    <p>Pros: {{ val.pros }}</p>
+    <p>Contras: {{ val.contras }}</p>
+    
+    {% if val.cursando %}
+    <p>Está cursando</p>
+    {% else %}
+    <p><b>No</b> está cursando</p>
+    {% endif %}
+    
+    {% if val.recomendacion %}
+    <p>La recomendaria</p>
+    {% else %}
+    <p><b>No</b> la recomendaria</p>
+    {% endif %}
+
+    <p>Calificación: {{ val.calificacion }}</p>
+    <p>Fecha: {{ val.fecha_valoracion }}</p>
+
+  </div>
+  <div class="modal-footer"> 
+    <input type="button" class="btn btn-default" data-dismiss="modal" value="Cancelar" /> 
+    <a href="{% url 'eliminar_valoracion' val.id %}"><input type="button" class="btn btn-warning" value="Eliminar" style="margin-bottom: 5px;" /></a>
+  </div>
+  
+
+  <script> 
+   setTimeout(function() { jQuery('#modal').modal('hide'); }, 100000); 
+   $('body').on('hidden.bs.modal', '.modal', function () { $(this).removeData('bs.modal'); });
+   </script>  
+ </div><!-- /.modal-content --> 
+</div><!-- /.modal-dialog -->
