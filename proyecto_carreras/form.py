@@ -1,3 +1,4 @@
+from __future__ import unicode_literals
 from django import forms
 from django.contrib.auth.models import User
 from carreras.models import Usuario
@@ -9,7 +10,8 @@ from django.utils.translation import ugettext, ugettext_lazy as _
 
 
 class LoginForm(forms.Form):
-	username = forms.CharField()
+	username = forms.CharField(
+        label=("Nombre de usuario"))
 	password = forms.CharField(widget=forms.PasswordInput())
 
 #class RegistrarForm(forms.Form):
@@ -29,12 +31,13 @@ class UserCreationForm(forms.ModelForm):
         label=_("Password"),
         strip=False,
         widget=forms.PasswordInput,
+        help_text=("Minimo 8 caracteres"),
     )
     password2 = forms.CharField(
-        label=_("Reescribir Password"),
+        label=_("Reescribir password"),
         widget=forms.PasswordInput,
         strip=False,
-        help_text=("Enter the same password as before, for verification."),
+        help_text=("Ingrese nuevamente el password para verificar"),
     )
 
     class Meta:
@@ -44,6 +47,8 @@ class UserCreationForm(forms.ModelForm):
 
     def __init__(self, *args, **kwargs):
         super(UserCreationForm, self).__init__(*args, **kwargs)
+        self.fields['username'].label = "Nombre de usuario"
+        self.fields['username'].help_text = "Letras, digitos y @/./+/-/_ solamente"
         self.fields[self._meta.model.USERNAME_FIELD].widget.attrs.update({'autofocus': ''})
 
     def clean_password2(self):

@@ -1,22 +1,19 @@
 {% extends "base.html" %}
+{% load crispy_forms_tags %}
 {% block title %} Iniciar sesión {% endblock %}
 {% block header %} Iniciar sesión {% endblock %}
 {% block content %}
 
+<div class="col-md-4">
 	{% if message %}
 		<b>{{message}}</b>
 	{% endif %}
+
 	<form action="" method="post">{% csrf_token %}
-		{% for field in form %}
-			<div class="field_container">
-				{{field.error}}
-				{{field.label_tag}}<br>
-				{{field}}
-			</div>
-		{% endfor %}
+		{{ form|crispy }}
 		<br>
 		<input type="submit" value="Entrar" class="btn btn-default">
 	</form>
-
+</div>
 
 {% endblock %}

@@ -1,0 +1,5 @@
+venv
+superuser
+*.pyc
+staticfiles
+distrib/migrations/

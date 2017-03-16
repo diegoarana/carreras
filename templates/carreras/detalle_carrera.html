@@ -32,23 +32,23 @@
 			<h3 class="panel-title">{{ val.usuario.user.username }}</h3>
 		</div>
 		 <div class="panel-body">
-		<p>Pros: {{ val.pros }}</p>
-		<p>Contras: {{ val.contras }}</p>
+		<p><b>Pros: </b> {{ val.pros }}</p>
+		<p><b>Contras: </b> {{ val.contras }}</p>
 		
 		{% if val.cursando %}
-		<p>Está cursando</p>
+		<b><p>Estoy cursando</p></b>
 		{% else %}
-		<p>No está cursando</p>
+		<b><p>No estoy cursando</p></b>
 		{% endif %}
 		
 		{% if val.recomendacion %}
-		<p>La recomendaria</p>
+		<b><p>La recomendaria</p></b>
 		{% else %}
-		<p>No la recomendaria</p>
+		<b><p>No la recomendaria</p></b>
 		{% endif %}
 
-		<p>Calificación: {{ val.calificacion }}</p>
-		<p>Fecha: {{ val.fecha_valoracion }}</p>
+		<b><p>Calificación: </b>{{ val.calificacion }}</p>
+		<b><p>Fecha: </b>{{ val.fecha_valoracion }}</p>
 		{% if user.is_authenticated %}
 		{% if user.usuario.id == val.creador_id %}
 		<a href="{% url "valorar_editar" carrera.url val.id %}"><button type="button" class="btn btn-default" >
