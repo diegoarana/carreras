@@ -1,3 +1,6 @@
+#! /usr/bin/python
+# -*- coding: UTF-8-*-
+
 """
 Django settings for proyecto_carreras project.
 
@@ -110,7 +113,7 @@ LOGIN_URL = reverse_lazy('login_page')
 # Internationalization
 # https://docs.djangoproject.com/en/1.10/topics/i18n/
 
-LANGUAGE_CODE = 'en-us'
+LANGUAGE_CODE = 'es'
 
 TIME_ZONE = 'UTC'
 
@@ -133,3 +136,4 @@ STATICFILES_DIRS = [
 ]
 
 CRISPY_TEMPLATE_PACK = 'bootstrap3'
+

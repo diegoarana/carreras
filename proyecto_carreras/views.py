@@ -1,8 +1,10 @@
+# -*- coding: UTF-8-*-
 from django.shortcuts import render, redirect
 from proyecto_carreras.form import LoginForm, UserCreationForm, UserCreationForm
 from django.contrib.auth import authenticate, login, logout
 from django.contrib.auth.models import User
 from carreras.models import Usuario
+from django import forms
 
 def homepage(request):
 	return render(request, 'index.html')
@@ -41,7 +43,7 @@ def login_page(request):
 				else:
 					message = "Tu usuario esta inactivo"
 			else:
-				message = "Nombre de usuario y/o password incorrecto"
+				message = "Nombre de usuario y/o contraseña incorrecto"
 	else:
 		form = LoginForm()
 	return render(request, 'login_page.html', {'message':message,'form':form})

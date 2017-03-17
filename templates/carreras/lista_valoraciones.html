@@ -20,23 +20,25 @@
 			<h3 class="panel-title">{{ val.carrera.nombre }}</h3>
 		</div>
 		 <div class="panel-body">
-		<p>Pros: {{ val.pros }}</p>
-		<p>Contras: {{ val.contras }}</p>
+
+		<p>Pros: <b> {{ val.pros }}</b></p>
+		<p>Contras:  <b>{{ val.contras }}</b></p>
 		
 		{% if val.cursando %}
-		<p>Está cursando</p>
+		<p><b> Estoy cursando</b></p>
 		{% else %}
-		<p><b>No</b> está cursando</p>
-		{% endif %}
+		<p><b> No estoy cursando</b></p>
+		{% endif %}</b>
 		
 		{% if val.recomendacion %}
-		<p>La recomendaria</p>
+		<p><b>La recomendaría</b></p>
 		{% else %}
-		<p><b>No</b> la recomendaria</p>
+		<p><b>No la recomendaría</b></p>
 		{% endif %}
 
-		<p>Calificación: {{ val.calificacion }}</p>
-		<p>Fecha: {{ val.fecha_valoracion }}</p>
+		<p>Calificación: <b>{{ val.calificacion }}</b></p>
+		<p>Fecha: <b>{{ val.fecha_valoracion }}</b></p>
+
 		<a href={% url "valorar_editar" val.carrera.url val.id %}><button type="button" class="btn btn-default" >
 		Editar</button></a>
 

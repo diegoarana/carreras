@@ -1,18 +1,20 @@
 {% extends "base.html" %}
+{% load crispy_forms_tags %}
 {% block title %}Valorar una carrera {% endblock %}
 {% block header %}Valorar carrera: {{carrera.nombre}} - {{carrera.institucion}}</h2>{% endblock %}
 {% block content %}
 		<form action="" method="post">{% csrf_token %}
-		{% for field in form %}
-		<div class="field_container col-md-6 " >
-		{{field.errors}}
-		{{field.label_tag}} <br>
-		{{field}}<br>
+		<div class="row">
+			<div class="col-md-6">
+			{{form|crispy}}
+			</div>
+			<br>
 		</div>
-		{% endfor %}
-		<br>
-		<div class="col-md-5" id="btn_valorar">
-		<input type="submit" value="Valorar" class="btn btn-primary">
+
+		<div class="row">
+			<div class="col-md-6" id="btn_valorar">
+				<input type="submit" value="Valorar" class="btn btn-primary btn-block">
+			</div>
 		</div>
 	</form>
 

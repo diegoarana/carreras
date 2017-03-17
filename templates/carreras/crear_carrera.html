@@ -1,17 +1,17 @@
 {% extends "base.html" %}
+{% load crispy_forms_tags %}
 {% block title %}Crear una carrera {% endblock %}
 {% block header %}Crear una carrera{% endblock %}
 {% block content %}
+
+<h3>Creá una nueva carrera para que vos y otras personas puedan comenzar a valorarla</h3>
+<br>
+
+<div class="col-md-4">
 	<form action="" method="post">{% csrf_token %}
-		{% for field in form %}
-		<div class="field_container">
-		{{field.errors}}
-		{{field.label_tag}} <br>
-		{{field}}
-		</div>
-		{% endfor %}
+	{{form|crispy}}
 		<br>
 		<input type="submit" value="Crear" class="btn btn-default">
 	</form>
-
+</div>
 {% endblock %}

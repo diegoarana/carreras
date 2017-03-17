@@ -10,3 +10,8 @@ class CarreraForm(forms.ModelForm):
 	class Meta:
 		model=Carrera
 		fields=['nombre','institucion']
+
+	def __init__(self, *args, **kwargs):
+		super(CarreraForm, self).__init__(*args, **kwargs)
+		self.fields['nombre'].label = "Nombre de la carrera"
+		self.fields['institucion'].label = "Universidad"

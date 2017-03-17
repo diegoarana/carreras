@@ -4,16 +4,21 @@
 {% block header %} Iniciar sesión {% endblock %}
 {% block content %}
 
+<div class="row">
+<div class="col-md-8">
+{% if message %}
+	<b>{{message}}</b>
+{% endif %}
+</div>
+</div>
+<br>
+<div class="row">
 <div class="col-md-4">
-	{% if message %}
-		<b>{{message}}</b>
-	{% endif %}
-
 	<form action="" method="post">{% csrf_token %}
 		{{ form|crispy }}
 		<br>
 		<input type="submit" value="Entrar" class="btn btn-default">
 	</form>
 </div>
-
+</div>
 {% endblock %}

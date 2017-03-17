@@ -2,16 +2,23 @@
 {% block title %} Lista de carreras {% endblock %}
 {%block header%} Lista de carreras{%endblock%}
 {% block content %}
+	<!--
 	<div class="container">
 	<form class="navbar-form navbar-left" role="search">
          <div class="form-group">
               <input type="text" class="form-control" placeholder="Buscar">
          </div>
     </form>
-    </div>
-	<div class="list-group">
-	{% for carrera in carreras %}
-		<a href="{% url "detalle_carrera" carrera.url %}" class="list-group-item">{{carrera.nombre}} - {{carrera.institucion}}</a>
-	{% endfor %}
-	</div>	
+    </div> -->
+    <h3>Elegí la carrera que querés valorar</h3>
+    <br>
+
+    <div class="col-md-9">
+		<div class="list-group">
+		{% for carrera in carreras %}
+			<a href="{% url "detalle_carrera" carrera.url %}" class="list-group-item">{{carrera.nombre}} - {{carrera.institucion}}</a>
+		{% endfor %}
+		</div>	
+	</div>
+
 {% endblock %}

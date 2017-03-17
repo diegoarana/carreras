@@ -1,3 +1,4 @@
+# -*- coding: UTF-8-*-
 from __future__ import unicode_literals
 from django.db import models
 
@@ -46,10 +47,10 @@ class Carrera (models.Model):
 class Valoracion (models.Model):
 	carrera = models.ForeignKey(Carrera, null=True, on_delete=models.CASCADE)
 	usuario = models.ForeignKey(Usuario, on_delete=models.CASCADE)
-	cursando = models.BooleanField("Cursando actualmente?", default=False)
+	cursando = models.BooleanField("¿Estás cursando actualmente?", default=False)
 	pros = models.TextField(blank=False, max_length=100)
 	contras = models.TextField(blank=False)
-	recomendacion = models.BooleanField("La recomendarias?", default=False)
+	recomendacion = models.BooleanField("¿Recomendarías la carrera?", default=False)
 	calificacion_choices = (
 		(2,2),(3,3),(4,4),(5,5),(6,6),(7,7),(8,8),(9,9),(10,10)
 		)
